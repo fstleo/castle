@@ -126,7 +126,7 @@ public class StickmanFly : MonoBehaviour {
             }                
             else
             {
-                anim.StandUp();                
+                anim.Run();    
             }
                 
         }

@@ -15,7 +15,7 @@ public class RunState : StickmanState
 
     public override void ProcessState()
     {
-        tform.position += tform.right * parameters.MoveSpeed;
+        tform.position += tform.right * parameters.MaxSpeed * Time.deltaTime ;
     }
 
 }

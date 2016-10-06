@@ -5,6 +5,7 @@ public class Raycaster : MonoBehaviour {
 
     Camera cam;
     LayerMask mask;
+    Catchable current;
 
     void Start()
     {
@@ -21,11 +22,27 @@ public class Raycaster : MonoBehaviour {
             RaycastHit2D hit = Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, 1, mask);
             if (hit)
             {
-                StickmanFly fly = hit.transform.GetComponent<StickmanFly>();
-                if ((fly != null) & (!fly.isDead))
+                Catchable fly = hit.transform.GetComponent<Catchable>();
+                if ((fly != null) & (!fly.IsCatched))
+                {
                     fly.Catch();
+                    current = fly;
+                }
             }
 
+        }
+        if (current != null)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);                
+                current.Move(mousePos);
+            }
+            else
+            {
+                current.Throw(Vector2.zero);
+                current = null;
+            }
         }
             
 	}

@@ -1,23 +1,19 @@
 ﻿using UnityEngine;
 
 public class Stickman : MonoBehaviour {
-
-    [SerializeField]
-    private AttackerParameters aParams;
-    [SerializeField]
-    private RunnerParameters rParams;
-    [SerializeField]
-    private FlyingParameters fParams;
+    
+    public AttackerParameters aParams;    
+    public RunnerParameters rParams;    
+    public FlyingParameters fParams;
 
     StickmanStateMachine stateController;
 
     private Transform tform;
     private StickmanAnim anim;
 
-    void Awake()
+    public void Init()
     {
         tform = transform;
-        anim = GetComponent<StickmanAnim>();
         stateController = new StickmanStateMachine(tform, fParams, rParams, aParams);
         InitAnimation();
         InitCatching();
@@ -32,7 +28,9 @@ public class Stickman : MonoBehaviour {
 
     private void InitAnimation()
     {
-        anim.SetSpeed(rParams.MoveSpeed);
+        anim = GetComponent<StickmanAnim>();
+        anim.Init();
+        anim.SetSpeed(rParams.GetSpeedValue());
         stateController.GetState(StickmanStateEnum.Attack).OnEnterState += anim.Attack;
         stateController.GetState(StickmanStateEnum.Fly).OnEnterState += anim.Fly;
         stateController.GetState(StickmanStateEnum.Run).OnEnterState += anim.Run;
@@ -49,16 +47,19 @@ public class Stickman : MonoBehaviour {
 
     private void SetFly()
     {
+        Debug.Log("State is fly");
         stateController.SetState(StickmanStateEnum.Fly);
     }
 
     private void SetRun()
     {
+        Debug.Log("State is run");
         stateController.SetState(StickmanStateEnum.Run);
     }
 
     private void SetAttack()
     {
+        Debug.Log("State is attack");
         stateController.SetState(StickmanStateEnum.Attack);
     }
 
@@ -70,12 +71,25 @@ public class Stickman : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.relativeVelocity.sqrMagnitude > 10)
-        { 
-            enabled = false;
-            anim.Die();
+        Debug.Log("Stickman hitted on floot with velocity: ");
+        Debug.Log(other.relativeVelocity.sqrMagnitude);
+        if (other.relativeVelocity.sqrMagnitude > 110)
+        {
+            SetDie();
         }
+        else
+        {
+            SetRun();
+            
+        }
+    }
+
+    private void SetDie()
+    {
+        gameObject.layer += 7;        
+        enabled = false;
+        anim.Die();
     }
 }

@@ -5,6 +5,11 @@ public class Spawn : MonoBehaviour {
 
     public GameObject stickman;
     public Transform[] levels;
+    [SerializeField]
+    Destroyable castle;
+    AttackerParameters aParams;
+    FlyingParameters fParams;
+    RunnerParameters rParams;
 
     float spawnTimer = 0;
     float nextSpawn = 0;
@@ -14,24 +19,30 @@ public class Spawn : MonoBehaviour {
 
 	private void Start ()
     {
+        Debug.Log(stickman.name);
+        aParams = Resources.Load<AttackerParameters>(string.Format("Parameters/AttackParameters/{0}_AttackParameters", stickman.name)) as AttackerParameters;
+        rParams = Resources.Load<RunnerParameters>(string.Format("Parameters/RunParameters/{0}_RunParameters", stickman.name)) as RunnerParameters;
+        fParams = Resources.Load<FlyingParameters>(string.Format("Parameters/FlyParameters/{0}_FlyParameters", stickman.name)) as FlyingParameters;
+        aParams.Target = castle;
+        SpawnMan();
         CaluculateNextSpawn();
     }
 
     private void FixedUpdate ()
     {
-        hardnessTime -= Time.fixedDeltaTime;
-        spawnTimer += Time.fixedDeltaTime;
-        if (spawnTimer > nextSpawn)
-        {
-            SpawnMan();
-            CaluculateNextSpawn();
-        }
+        //hardnessTime -= Time.fixedDeltaTime;
+        //spawnTimer += Time.fixedDeltaTime;
+        //if (spawnTimer > nextSpawn)
+        //{
+        //    SpawnMan();
+        //    CaluculateNextSpawn();
+        //}
 
-        if (hardnessTime < 0)
-        {
-            hardnessDelayMultiplier /= 1.2f;
-            hardnessTime = 10;
-        }
+        //if (hardnessTime < 0)
+        //{
+        //    hardnessDelayMultiplier /= 1.2f;
+        //    hardnessTime = 10;
+        //}
 	}
 
     private void SpawnMan()
@@ -40,10 +51,12 @@ public class Spawn : MonoBehaviour {
         GameObject nextMan = Instantiate(stickman);
         nextMan.transform.position = new Vector3(-11, levels[h].position.y, 0);
         nextMan.layer = levels[h].gameObject.layer + 7;
-        //nextMan.GetComponent<StickmanFly>().rightBorderPos = levels[h].GetChild(0).position;
-        //nextMan.GetComponent<StickmanAttack>().damage = Random.Range(10, 50);
-        //nextMan.GetComponent<StickmanRun>().speed = Random.Range(1, 5);
-        //nextMan.GetComponent<StickmanAnim>().Go();
+
+        Stickman s = nextMan.GetComponent<Stickman>();
+        s.aParams = aParams;
+        s.rParams = rParams;
+        s.fParams = fParams;
+        s.Init();
     }
 
     private void CaluculateNextSpawn()

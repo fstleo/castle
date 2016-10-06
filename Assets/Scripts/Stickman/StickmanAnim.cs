@@ -5,10 +5,9 @@ public class StickmanAnim : MonoBehaviour
 {
     Animator anim;
 
-    public void Go()
+    public void Init()
     {        
-        anim = GetComponent<Animator>();
-        gameObject.SendMessage("SetAnimator", this);
+        anim = GetComponent<Animator>();        
     }
 
     public void SetSpeed(float value)
@@ -16,37 +15,35 @@ public class StickmanAnim : MonoBehaviour
         anim.SetFloat("Speed", value);
     }
 
+    private void ResetBools()
+    {
+        anim.SetBool("Run", false);
+        anim.SetBool("Fly", false);
+        anim.SetBool("Attack", false);
+    }
+
     public void Run()
     {
-        anim.SetTrigger("Run");        
+        ResetBools();
+        anim.SetBool("Run", true);        
     }
 
     public void Attack()
     {
-        anim.SetTrigger("Attack");
+        ResetBools();
+        anim.SetBool("Attack", true);
     }
 
     public void Fly()
     {
-        anim.ResetTrigger("Stand");
-        anim.SetTrigger("Fly");
-    }
-
-    public void StandUp()
-    {
-        anim.SetTrigger("Stand");       
-    }
-
-    void OnStandUp()
-    {
-        gameObject.SendMessage("Run");
+        ResetBools();
+        anim.SetBool("Fly", true);
     }
 
     public void Die()
     {
-        //Instantiate(blood, transform.position, Quaternion.identity);
-        //Destroy(gameObject);
-        anim.SetTrigger("Die");        
+        ResetBools();
+        anim.SetBool("Die", true);
         gameObject.AddComponent<LifetimeDestroy>().lifeTime = 2;
     }
 }
