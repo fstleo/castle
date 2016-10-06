@@ -40,10 +40,10 @@ public class Spawn : MonoBehaviour {
         GameObject nextMan = Instantiate(stickman);
         nextMan.transform.position = new Vector3(-11, levels[h].position.y, 0);
         nextMan.layer = levels[h].gameObject.layer + 7;
-        nextMan.GetComponent<StickmanFly>().rightBorderPos = levels[h].GetChild(0).position;
-        nextMan.GetComponent<StickmanAttack>().damage = Random.Range(10, 50);
-        nextMan.GetComponent<StickmanRun>().speed = Random.Range(1, 5);
-        nextMan.GetComponent<StickmanAnim>().Go();
+        //nextMan.GetComponent<StickmanFly>().rightBorderPos = levels[h].GetChild(0).position;
+        //nextMan.GetComponent<StickmanAttack>().damage = Random.Range(10, 50);
+        //nextMan.GetComponent<StickmanRun>().speed = Random.Range(1, 5);
+        //nextMan.GetComponent<StickmanAnim>().Go();
     }
 
     private void CaluculateNextSpawn()

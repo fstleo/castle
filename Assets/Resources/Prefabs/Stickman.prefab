@@ -11,8 +11,6 @@ GameObject:
   - 95: {fileID: 9504070}
   - 61: {fileID: 6182262}
   - 50: {fileID: 5032824}
-  - 114: {fileID: 11427300}
-  - 114: {fileID: 11445754}
   - 114: {fileID: 11437540}
   - 114: {fileID: 11490592}
   - 212: {fileID: 21299828}
@@ -110,18 +108,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11427300
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d0bef8edaf7d0e41a897a14cd471925, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
 --- !u!114 &11437540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,18 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4cf7bfae5da57940ba66e7aa9f6a21e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11445754
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 164563ef92f0fc04bb6acc65b4dd4957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1
 --- !u!114 &11490592
 MonoBehaviour:
   m_ObjectHideFlags: 1
