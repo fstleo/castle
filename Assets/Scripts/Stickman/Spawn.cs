@@ -43,7 +43,7 @@ public class Spawn : MonoBehaviour {
         //    hardnessDelayMultiplier /= 1.2f;
         //    hardnessTime = 10;
         //}
-	}
+    }
 
     private void SpawnMan()
     {
@@ -53,10 +53,13 @@ public class Spawn : MonoBehaviour {
         nextMan.layer = levels[h].gameObject.layer + 7;
 
         Stickman s = nextMan.GetComponent<Stickman>();
+        s.target = levels[h].GetChild(0);        
         s.aParams = aParams;
         s.rParams = rParams;
         s.fParams = fParams;
         s.Init();
+        s.SetTarget(castle);
+        s.OnDieEvent += Counter.Instance.StickmanDeath;
     }
 
     private void CaluculateNextSpawn()

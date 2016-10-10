@@ -9,11 +9,8 @@ public class AttackState : StickmanState {
 
     Destroyable currentVictim;
 
-    Transform tform;    
-
-    public AttackState(AttackerParameters param, Transform transform)
+    public AttackState(AttackerParameters param)
     {
-        tform = transform;
         parameters = param;        
     }
 

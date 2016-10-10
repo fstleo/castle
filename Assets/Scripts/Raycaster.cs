@@ -6,6 +6,7 @@ public class Raycaster : MonoBehaviour {
     Camera cam;
     LayerMask mask;
     Catchable current;
+    Vector2 prevmousePos;
 
     void Start()
     {
@@ -23,10 +24,11 @@ public class Raycaster : MonoBehaviour {
             if (hit)
             {
                 Catchable fly = hit.transform.GetComponent<Catchable>();
-                if ((fly != null) & (!fly.IsCatched))
+                if ((fly != null) & (!fly.IsFlying))
                 {
                     fly.Catch();
                     current = fly;
+                    prevmousePos = Input.mousePosition;
                 }
             }
 
@@ -37,10 +39,13 @@ public class Raycaster : MonoBehaviour {
             {
                 Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);                
                 current.Move(mousePos);
+                prevmousePos = Input.mousePosition;
             }
             else
             {
-                current.Throw(Vector2.zero);
+                Vector2 velocity = ((Vector2)Input.mousePosition - prevmousePos) * 20;
+                Debug.Log(velocity);
+                current.Throw(velocity);
                 current = null;
             }
         }

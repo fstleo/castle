@@ -4,8 +4,9 @@ using System;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Catchable : MonoBehaviour
-{
-    public bool IsCatched
+{  
+
+    public bool IsFlying
     {
         get; private set;
     }
@@ -16,30 +17,38 @@ public class Catchable : MonoBehaviour
     private Rigidbody2D rbody;
     private Transform tform;
 
+    float minimumHeight;
+
 	void Awake ()
     {
         tform = transform;
         rbody = GetComponent<Rigidbody2D>();
 	}
 
+    void Start()
+    {
+        minimumHeight = tform.position.y + 0.3f;
+    }
+
     public void Catch()
     {
-        IsCatched = true;
+        IsFlying = true;
         if (OnCatchEvent != null)
             OnCatchEvent();
     }
 
     public void Move(Vector2 position)
     {
+        position.Set(position.x, Mathf.Max(minimumHeight, position.y));
         tform.position = position;
     }
 
     public void Throw(Vector2 velocity)
     {
-        IsCatched = false;
+        IsFlying = false;
         if (OnThrowEvent != null)
             OnThrowEvent();
         rbody.WakeUp();        
-        rbody.AddForce(velocity * 1000);
+        rbody.AddForce(velocity);
     }
 }

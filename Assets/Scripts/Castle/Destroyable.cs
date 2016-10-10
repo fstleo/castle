@@ -11,15 +11,11 @@ public class Destroyable : MonoBehaviour {
         get; private set;
     }
 
-    public Transform Tform
-    { get; private set; }
-
     public event Action OnDieEvent;
     public event Action<float> OnGetDamageEvent;
 
     private void Awake()
     {
-        Tform = transform;
         Health = parameters.MaximumHealth;
     }
 

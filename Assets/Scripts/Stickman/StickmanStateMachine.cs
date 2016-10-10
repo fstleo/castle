@@ -30,7 +30,7 @@ public class StickmanStateMachine
     {        
         states.Add(StickmanStateEnum.Fly, new FlyState(fParams, transform));
         states.Add(StickmanStateEnum.Run, new RunState(rParams, transform));
-        states.Add(StickmanStateEnum.Attack, new AttackState(aParams, transform));        
+        states.Add(StickmanStateEnum.Attack, new AttackState(aParams));        
     }
 
     public void SetState(StickmanStateEnum state)

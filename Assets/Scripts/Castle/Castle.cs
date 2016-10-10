@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
+using System;
 
 public class Castle : MonoBehaviour {
 
-    public delegate void GameOverDelegate();
-    public event GameOverDelegate GameOverEvent;
+    [SerializeField]
+    Slider bar;
 
-    public delegate void HealthChange(int value, int maxValue);
-    public event HealthChange OnChangeHealthValue;
+    public event Action GameOverEvent;
+    
+    public event Action<float> OnChangeHealthValue;
 
     public static Castle Instance
     {
@@ -15,18 +17,19 @@ public class Castle : MonoBehaviour {
         private set;
     }
 
-    int maxHP = 1000;
-    int _hp = 1000;
-    int HP
+    Destroyable hpScript;   
+
+	void Awake ()
     {
-        get
-        { return _hp; }
-        set
-        {
-            _hp = value;
-            if (_hp <= 0)
-                Gameover();
-        }
+        Instance = this;
+        hpScript = GetComponent<Destroyable>();
+        hpScript.OnGetDamageEvent += HpScript_OnGetDamageEvent;
+        hpScript.OnDieEvent += Gameover;
+	}
+
+    private void HpScript_OnGetDamageEvent(float currentHpValue)
+    {
+        bar.value = currentHpValue;
     }
 
     void Gameover()
@@ -35,18 +38,7 @@ public class Castle : MonoBehaviour {
         {
             GameOverEvent();
         }
-            
+
     }
 
-	void Awake ()
-    {
-        Instance = this;
-	}
-	
-	public void DealDamage(int value)
-    {
-        HP -= value;
-        if (OnChangeHealthValue != null)
-            OnChangeHealthValue(HP, maxHP);        
-    }
 }

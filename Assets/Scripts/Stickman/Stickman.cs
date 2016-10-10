@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class Stickman : MonoBehaviour {
     
@@ -7,9 +8,14 @@ public class Stickman : MonoBehaviour {
     public FlyingParameters fParams;
 
     StickmanStateMachine stateController;
+    Catchable catchScript;
 
     private Transform tform;
     private StickmanAnim anim;
+
+    public Transform target;
+
+    public event Action OnDieEvent;
 
     public void Init()
     {
@@ -22,8 +28,9 @@ public class Stickman : MonoBehaviour {
 
     private void InitCatching()
     {
-        Catchable catchScript = GetComponent<Catchable>();
-        catchScript.OnCatchEvent += SetFly;
+        catchScript = GetComponent<Catchable>();
+        catchScript.OnCatchEvent += SetFly;        
+        catchScript.OnThrowEvent += () => GetComponent<Collider2D>().enabled = true;
     }
 
     private void InitAnimation()
@@ -36,7 +43,12 @@ public class Stickman : MonoBehaviour {
         stateController.GetState(StickmanStateEnum.Run).OnEnterState += anim.Run;
     }
 
-    void Update()
+    public void SetTarget(Destroyable target)
+    {
+        (stateController.GetState(StickmanStateEnum.Attack) as AttackState).SetTarget(target);
+    }
+
+    private void Update()
     {
         stateController.Process();
         if (stateController.CurrentStateType == StickmanStateEnum.Run)
@@ -48,6 +60,8 @@ public class Stickman : MonoBehaviour {
     private void SetFly()
     {
         Debug.Log("State is fly");
+        SoundPlayer.PlaySound("flight_scream");
+        GetComponent<Collider2D>().enabled = false;
         stateController.SetState(StickmanStateEnum.Fly);
     }
 
@@ -65,7 +79,7 @@ public class Stickman : MonoBehaviour {
 
     private void CheckTarget()
     {
-        if ((tform.position - aParams.Target.Tform.position).sqrMagnitude < aParams.Range * aParams.Range)
+        if ((tform.position - target.position).sqrMagnitude < aParams.Range * aParams.Range)
         {
             SetAttack();
         }
@@ -73,21 +87,31 @@ public class Stickman : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if (catchScript.IsFlying)
+        {       
+            return;
+        }
+        if (!enabled)
+        {
+            return;
+        }
         Debug.Log("Stickman hitted on floot with velocity: ");
-        Debug.Log(other.relativeVelocity.sqrMagnitude);
+        Debug.Log(other.relativeVelocity.sqrMagnitude);        
         if (other.relativeVelocity.sqrMagnitude > 110)
         {
             SetDie();
         }
         else
         {
-            SetRun();
-            
+            SetRun();            
         }
     }
 
     private void SetDie()
     {
+        if (OnDieEvent != null)
+            OnDieEvent();
+        SoundPlayer.PlaySound("fall_scream");
         gameObject.layer += 7;        
         enabled = false;
         anim.Die();
