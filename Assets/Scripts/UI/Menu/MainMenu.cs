@@ -2,19 +2,20 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : State {
 
-    [SerializeField]
-    GameObject menuObject;
     [SerializeField]
     Toggle musicToggle;
     [SerializeField]
     Toggle soundToggle;
+    [SerializeField]
+    Toggle flipToggle;
 
     void Start()
     {
         musicToggle.isOn = !MusicPlayer.Enabled;
-        soundToggle.isOn = !SoundPlayer.Enabled;        
+        soundToggle.isOn = !SoundPlayer.Enabled;
+        flipToggle.isOn = GameCamera.NeedFlip;
     }
 
     public void On_PlayButton_Click()
@@ -33,16 +34,9 @@ public class MainMenu : MonoBehaviour {
         MusicPlayer.Enabled = !state;
     }
 
-    public void On_ShowMenu_Click()
+    public void On_FlipTrigger_Click(bool state)
     {
-        menuObject.SetActive(true);
-        SoundPlayer.PlaySound("paper");
-    }
-
-    public void On_HideMenu_Click()
-    {
-        menuObject.SetActive(false);
-        SoundPlayer.PlaySound("paper");
+        GameCamera.NeedFlip = state;
     }
 
     public void On_ExitButton_Click()

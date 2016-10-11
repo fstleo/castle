@@ -5,8 +5,26 @@ public class GameCamera : MonoBehaviour {
 
     Camera cam;
 
-	void Awake() {
+    public static bool NeedFlip
+    {
+        get
+        {            
+            return PlayerPrefs.GetInt("CameraFlip", 0) > 0;
+        }
+        set
+        {
+            PlayerPrefs.SetInt("CameraFlip", value ? 1 : 0);
+        }
+    }
+
+	void Awake()
+    {        
         cam = GetComponent<Camera>();
+        if (NeedFlip)
+        {
+            transform.position = -transform.position;
+            transform.rotation = Quaternion.Euler(0, 180, 0);            
+        }
         ChangeBounds();
 	}
 

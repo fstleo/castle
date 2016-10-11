@@ -9,10 +9,16 @@ public class RunState : StickmanState
 
     float timeout = 0.5f;
 
+    public float Speed
+    {
+        get; private set;
+    }
+
     public RunState(RunnerParameters param, Transform transform)
     {
-        parameters = param;
+        parameters = param;        
         tform = transform;
+        Speed = parameters.GetSpeedValue();
     }
 
     public override void EnterState()
@@ -29,7 +35,7 @@ public class RunState : StickmanState
         }
         else
         {
-            tform.position += tform.right * parameters.MaxSpeed * Time.deltaTime;
+            tform.position += tform.right * Speed * Time.deltaTime;
         }
     }
 

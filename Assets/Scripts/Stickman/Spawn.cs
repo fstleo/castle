@@ -30,19 +30,19 @@ public class Spawn : MonoBehaviour {
 
     private void FixedUpdate ()
     {
-        //hardnessTime -= Time.fixedDeltaTime;
-        //spawnTimer += Time.fixedDeltaTime;
-        //if (spawnTimer > nextSpawn)
-        //{
-        //    SpawnMan();
-        //    CaluculateNextSpawn();
-        //}
+        hardnessTime -= Time.fixedDeltaTime;
+        spawnTimer += Time.fixedDeltaTime;
+        if (spawnTimer > nextSpawn)
+        {
+            SpawnMan();
+            CaluculateNextSpawn();
+        }
 
-        //if (hardnessTime < 0)
-        //{
-        //    hardnessDelayMultiplier /= 1.2f;
-        //    hardnessTime = 10;
-        //}
+        if (hardnessTime < 0)
+        {
+            hardnessDelayMultiplier /= 1.2f;
+            hardnessTime = 10;
+        }
     }
 
     private void SpawnMan()

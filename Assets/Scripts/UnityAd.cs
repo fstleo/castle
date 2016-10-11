@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Advertisements;
-using System.Collections;
+using System;
 
 public class UnityAd : MonoBehaviour {
 
@@ -9,14 +9,15 @@ public class UnityAd : MonoBehaviour {
     {
         get
         {
-            if (PlayerPrefs.HasKey("firstappstart"))
-            {                
-                System.DateTime k = System.DateTime.Parse(PlayerPrefs.GetString("firstappstart"));                                
-                return (k.AddDays(1).CompareTo(System.DateTime.Today) < 0);
+            if (PlayerPrefs.HasKey("firstappstartticks"))
+            {
+                long fisrtStartTicks = long.Parse(PlayerPrefs.GetString("firstappstartticks"));
+                long todayTicks = DateTime.Today.Ticks;
+                return todayTicks - fisrtStartTicks > 3 * TimeSpan.TicksPerDay;
             }
             else
             {
-                PlayerPrefs.SetString("firstappstart", System.DateTime.Today.ToString());
+                PlayerPrefs.SetString("firstappstartticks", DateTime.Today.Ticks.ToString());
                 return false;
             }
                 
@@ -42,8 +43,7 @@ public class UnityAd : MonoBehaviour {
     }
 	
 	public void ShowAd()
-    {
-
+    {        
         if (Advertisement.IsReady())
         {
             Advertisement.Show();

@@ -36,11 +36,11 @@ public class Stickman : MonoBehaviour {
     private void InitAnimation()
     {
         anim = GetComponent<StickmanAnim>();
-        anim.Init();
-        anim.SetSpeed(rParams.GetSpeedValue());
+        anim.Init();        
         stateController.GetState(StickmanStateEnum.Attack).OnEnterState += anim.Attack;
         stateController.GetState(StickmanStateEnum.Fly).OnEnterState += anim.Fly;
-        stateController.GetState(StickmanStateEnum.Run).OnEnterState += anim.Run;
+        stateController.GetState(StickmanStateEnum.Run).OnEnterState += anim.Run;        
+        anim.SetSpeed((stateController.GetState(StickmanStateEnum.Run) as RunState).Speed);
     }
 
     public void SetTarget(Destroyable target)

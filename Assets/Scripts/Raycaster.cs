@@ -6,11 +6,11 @@ public class Raycaster : MonoBehaviour {
     Camera cam;
     LayerMask mask;
     Catchable current;
-    Vector2 prevmousePos;
+    Vector2 prevmousePos;     
 
     void Start()
     {
-        cam = GetComponent<Camera>();
+        cam = GetComponent<Camera>();        
         for (int i = 15; i < 22; i++)
             mask.value |= 1 << i;
     }
@@ -44,6 +44,8 @@ public class Raycaster : MonoBehaviour {
             else
             {
                 Vector2 velocity = ((Vector2)Input.mousePosition - prevmousePos) * 20;
+                if (GameCamera.NeedFlip)
+                    velocity.Set(-velocity.x, velocity.y);
                 Debug.Log(velocity);
                 current.Throw(velocity);
                 current = null;

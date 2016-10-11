@@ -2,9 +2,9 @@
 using System.Collections;
 
 public class RunnerParameters : ScriptableObject {
-   
-    public float MaxSpeed;
+
     public float MinSpeed;
+    public float MaxSpeed;    
 
     public float GetSpeedValue()
     {

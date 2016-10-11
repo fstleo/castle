@@ -34,7 +34,7 @@ public class SoundPlayer : MonoBehaviour {
         if (Enabled)
         {
             sources[currentChannel].clip = sounds[GetRandomSound(name)];
-            sources[currentChannel].pitch = 1 + Random.Range(-0.5f, 0.5f);
+            sources[currentChannel].pitch = 1 + Random.Range(-0.3f, 0.3f);
             sources[currentChannel].Play();
             currentChannel = (currentChannel + 1) % sources.Length;
         }
