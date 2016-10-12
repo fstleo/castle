@@ -5,27 +5,9 @@ using System;
 public class UnityAd : MonoBehaviour {
 
     bool needShow = false;
-    bool threeDaysCheck
-    {
-        get
-        {
-            if (PlayerPrefs.HasKey("firstappstartticks"))
-            {
-                long fisrtStartTicks = long.Parse(PlayerPrefs.GetString("firstappstartticks"));
-                long todayTicks = DateTime.Today.Ticks;
-                return todayTicks - fisrtStartTicks > 3 * TimeSpan.TicksPerDay;
-            }
-            else
-            {
-                PlayerPrefs.SetString("firstappstartticks", DateTime.Today.Ticks.ToString());
-                return false;
-            }
-                
-        }
-    }
 
 	void Start ()
-    {
+    {        
         DontDestroyOnLoad(gameObject);
     }
     
@@ -36,18 +18,18 @@ public class UnityAd : MonoBehaviour {
             ShowAd();
             needShow = false;
         }
-         if ((num == 2) && (threeDaysCheck))
+        if (num == 2)
         {
             needShow = true;
         }
     }
 	
 	public void ShowAd()
-    {        
+    {                
         if (Advertisement.IsReady())
         {
+            CDAnalytics.Event(AnalyticsEvent.ShowAd);
             Advertisement.Show();
         }
     }
-
 }

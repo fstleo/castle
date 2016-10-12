@@ -389,7 +389,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 501192686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 815a180a424e80840b1139bf1e07cddc, type: 3}
+  m_Script: {fileID: 11500000, guid: dc44b0f9139da64408724aa22dbda24b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &663091161
@@ -490,8 +490,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 691330309}
-  - 82: {fileID: 691330308}
   - 114: {fileID: 691330307}
+  - 82: {fileID: 691330308}
   - 82: {fileID: 691330311}
   - 82: {fileID: 691330310}
   m_Layer: 0

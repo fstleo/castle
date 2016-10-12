@@ -34,6 +34,12 @@ public class Counter : MonoBehaviour {
         lclscrs = 0;
         label = GetComponent<Text>();
         label.text = "0";
+        Castle.Instance.GameOverEvent += PushScores;
+    }
+
+    void OnDestroy()
+    {
+        Castle.Instance.GameOverEvent -= PushScores;
     }
 		
 	public void StickmanDeath ()
@@ -44,6 +50,7 @@ public class Counter : MonoBehaviour {
 
     public void PushScores()
     {
+        CDAnalytics.Event(AnalyticsEvent.GameOver, lclscrs);
         Scores.PushScores(lclscrs);        
     }
 }

@@ -59,7 +59,7 @@ public class Stickman : MonoBehaviour {
 
     private void SetFly()
     {
-        Debug.Log("State is fly");
+        //Debug.Log("State is fly");
         SoundPlayer.PlaySound("flight_scream");
         GetComponent<Collider2D>().enabled = false;
         stateController.SetState(StickmanStateEnum.Fly);
@@ -67,13 +67,13 @@ public class Stickman : MonoBehaviour {
 
     private void SetRun()
     {
-        Debug.Log("State is run");
+        //Debug.Log("State is run");
         stateController.SetState(StickmanStateEnum.Run);
     }
 
     private void SetAttack()
     {
-        Debug.Log("State is attack");
+        //Debug.Log("State is attack");
         stateController.SetState(StickmanStateEnum.Attack);
     }
 
@@ -95,8 +95,8 @@ public class Stickman : MonoBehaviour {
         {
             return;
         }
-        Debug.Log("Stickman hitted on floot with velocity: ");
-        Debug.Log(other.relativeVelocity.sqrMagnitude);        
+        //Debug.Log("Stickman hitted on floot with velocity: ");
+        //Debug.Log(other.relativeVelocity.sqrMagnitude);        
         if (other.relativeVelocity.sqrMagnitude > 110)
         {
             SetDie();

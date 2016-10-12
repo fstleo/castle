@@ -32,8 +32,7 @@ public class GameMenu : MonoBehaviour {
     public void GameOver()
     {
         anim.SetTrigger("GameOver");
-        finishScoresLabel.text = Counter.Instance.lclscrs.ToString();
-        Counter.Instance.PushScores();        
+        finishScoresLabel.text = Counter.Instance.lclscrs.ToString();        
         Time.timeScale = 0;        
     }
 
