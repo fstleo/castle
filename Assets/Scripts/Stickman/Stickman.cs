@@ -91,20 +91,24 @@ public class Stickman : MonoBehaviour {
         {       
             return;
         }
+            
         if (!enabled)
         {
             return;
         }
-        //Debug.Log("Stickman hitted on floot with velocity: ");
-        //Debug.Log(other.relativeVelocity.sqrMagnitude);        
-        if (other.relativeVelocity.sqrMagnitude > 110)
+        Debug.Log("Collision enter");
+
+        if (other.transform.CompareTag("Level"))
         {
-            SetDie();
-        }
-        else
-        {
-            SetRun();            
-        }
+            if (other.relativeVelocity.sqrMagnitude > 110)
+            {
+                SetDie();
+            }
+            else
+            {
+                SetRun();
+            }
+        }        
     }
 
     private void SetDie()

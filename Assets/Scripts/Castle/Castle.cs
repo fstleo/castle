@@ -38,7 +38,11 @@ public class Castle : MonoBehaviour {
         {
             GameOverEvent();
         }
+    }
 
+    public Destroyable GetDestroyable()
+    {
+        return hpScript;
     }
 
 }

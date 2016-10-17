@@ -8,6 +8,11 @@ public class Raycaster : MonoBehaviour {
     Catchable current;
     Vector2 prevmousePos;     
 
+    bool stickmanCatched
+    {
+        get { return current != null; }
+    }
+
     void Start()
     {
         cam = GetComponent<Camera>();        
@@ -18,39 +23,56 @@ public class Raycaster : MonoBehaviour {
 	
 	void Update ()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit2D hit = Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, 1, mask);
-            if (hit)
-            {
-                Catchable fly = hit.transform.GetComponent<Catchable>();
-                if ((fly != null) & (!fly.IsFlying))
-                {
-                    fly.Catch();
-                    current = fly;
-                    prevmousePos = Input.mousePosition;
-                }
-            }
-
-        }
-        if (current != null)
+        if (stickmanCatched)
         {
             if (Input.GetMouseButton(0))
             {
-                Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);                
-                current.Move(mousePos);
-                prevmousePos = Input.mousePosition;
+                MoveCurrentStickman();
             }
             else
             {
-                Vector2 velocity = ((Vector2)Input.mousePosition - prevmousePos) * 20;
-                if (GameCamera.NeedFlip)
-                    velocity.Set(-velocity.x, velocity.y);
-                Debug.Log(velocity);
-                current.Throw(velocity);
-                current = null;
+                ThrowCurrentStickman();
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                TryToCatchStickman();
             }
         }
             
 	}
+
+    private void ThrowCurrentStickman()
+    {
+        Vector2 velocity = ((Vector2)Input.mousePosition - prevmousePos) * 20;
+        if (GameCamera.NeedFlip)
+            velocity.Set(-velocity.x, velocity.y);
+        Debug.Log(velocity);
+        current.Throw(velocity);
+        current = null;
+    }
+
+    private void MoveCurrentStickman()
+    {
+        Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        current.Move(mousePos);
+        prevmousePos = Input.mousePosition;
+    }
+
+    private void TryToCatchStickman()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(cam.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, 1, mask);
+        if (hit)
+        {
+            Catchable fly = hit.transform.GetComponent<Catchable>();
+            if ((fly != null) & (!fly.IsFlying))
+            {
+                fly.Catch();
+                current = fly;
+                prevmousePos = Input.mousePosition;
+            }
+        }
+    }
 }

@@ -5,12 +5,6 @@ public class Spawn : MonoBehaviour {
 
     public GameObject stickman;
     public Transform[] levels;
-    [SerializeField]
-    Destroyable castle;
-    AttackerParameters aParams;
-    FlyingParameters fParams;
-    RunnerParameters rParams;
-
     float spawnTimer = 0;
     float nextSpawn = 0;
     float hardnessDelayMultiplier = 2;
@@ -20,10 +14,6 @@ public class Spawn : MonoBehaviour {
 	private void Start ()
     {
         Debug.Log(stickman.name);
-        aParams = Resources.Load<AttackerParameters>(string.Format("Parameters/AttackParameters/{0}_AttackParameters", stickman.name)) as AttackerParameters;
-        rParams = Resources.Load<RunnerParameters>(string.Format("Parameters/RunParameters/{0}_RunParameters", stickman.name)) as RunnerParameters;
-        fParams = Resources.Load<FlyingParameters>(string.Format("Parameters/FlyParameters/{0}_FlyParameters", stickman.name)) as FlyingParameters;
-        aParams.Target = castle;
         SpawnMan();
         CaluculateNextSpawn();
     }
@@ -54,11 +44,8 @@ public class Spawn : MonoBehaviour {
 
         Stickman s = nextMan.GetComponent<Stickman>();
         s.target = levels[h].GetChild(0);        
-        s.aParams = aParams;
-        s.rParams = rParams;
-        s.fParams = fParams;
         s.Init();
-        s.SetTarget(castle);
+        s.SetTarget(Castle.Instance.GetDestroyable());
         s.OnDieEvent += Counter.Instance.StickmanDeath;
     }
 
